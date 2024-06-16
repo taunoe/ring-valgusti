@@ -2,7 +2,7 @@
  * main.cpp
  *
  * Started 08.06.2024
- * Edited  09.06.2024
+ * Edited  16.06.2024
  * 
  * Copyright 2024 Tauno Erik
  */
@@ -11,11 +11,11 @@
 #include "Tauno_Ring_Valgusti.h"
 
 #define LED_PIN    2  // ESP32-WROOM D2
-#define PCB_COUNT  1
+#define PCB_COUNT  5
 
 #define IC_COUNT 5  // kiipi
 
-#define PAUS 100
+#define DELAY_VAL 100
 
 Tauno_Ring_Valgusti RING(LED_PIN, PCB_COUNT);
 /*
@@ -40,17 +40,40 @@ void theaterChaseRainbow(int wait);
 */
 
 void setup() {
+  Serial.begin(115200);
   /*
   ring.begin();           // INITIALIZE NeoPixel ring object (REQUIRED)
   ring.show();            // Turn OFF all pixels ASAP
   ring.setBrightness(50);  // Set BRIGHTNESS to about 1/5 (max = 255)
   */
   RING.begin();
-  RING.led_on(0, 100);
-  RING.show();
 }
 
 void loop() {
+  uint8_t val = 100;
+
+  for (size_t i = 0; i < 75; i++) {
+    RING.all_off();
+    RING.led_on(i, val);  // alusta 1
+    RING.show();
+    delay(DELAY_VAL);
+  }
+/*
+    RING.all_off();
+    RING.led_on(0, val);
+    RING.led_on(14, val);
+    RING.led_on(15, val);
+    RING.led_on(29, val);
+    RING.led_on(30, val);
+    RING.led_on(44, val);
+    RING.led_on(45, val);
+    RING.led_on(59, val);
+    RING.led_on(60, val);
+    RING.led_on(74, val);
+    RING.show();
+    delay(DELAY_VAL);
+*/
+
   // put your main code here, to run repeatedly:
   // Fill along the length of the ring in various colors...
   // colorWipe(ring.Color(255, 0, 0), 50);  // Red

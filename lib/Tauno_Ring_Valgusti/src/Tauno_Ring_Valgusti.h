@@ -2,7 +2,7 @@
  * Tauno_Ring_Valgusti.h
  *
  * Started 08.06.2024
- * Edited  15.06.2024
+ * Edited  16.06.2024
  * 
  * Copyright 2024 Tauno Erik
  */
@@ -13,6 +13,9 @@
 #include <Arduino.h>
 #include "Adafruit_GFX.h"
 #include "Adafruit_NeoPixel.h"
+
+#define LEDS_ON_PCB  15
+#define ICS_ON_PCB    5
 
 class Tauno_Ring_Valgusti {
  private:

@@ -2,7 +2,7 @@
  * Tauno_Ring_Valgusti.cpp
  *
  * Started 08.06.2024
- * Edited  15.06.2024
+ * Edited  16.06.2024
  * 
  * Copyright 2024 Tauno Erik
  */
@@ -40,18 +40,111 @@ bool Tauno_Ring_Valgusti::set_brightness(uint8_t level) {
     return true;
 }
 
-// color: 0x7aff18
+// level 0-255
 bool Tauno_Ring_Valgusti::led_on(int index, uint8_t level) {
-    if (index > _PCB_COUNT*15) {
+    Serial.print(" led:");
+    Serial.print(index);
+    // If out of index
+    if (index > (_PCB_COUNT * (LEDS_ON_PCB+1))) {
         return false;
     }
 
-    uint32_t color = 0xff0000;
+    // On which PCB the LED are
+    int pcb_nr = index / LEDS_ON_PCB;
+    Serial.print(" pcb_nr:");
+    Serial.print(pcb_nr);
 
-    // int old = pixels.getPixelColor(index);
+    // Find LED index on PCB
+    while (index >= LEDS_ON_PCB) {
+        index -= LEDS_ON_PCB;
+    }
+    Serial.print(" led on pcb:");
+    Serial.print(index);
 
-    pixels.setPixelColor(index, color);
+    uint32_t led_value = 0;  // can store 3 LED value
 
+    switch (index) {
+    case 0:
+        index = 0;
+        led_value = (level << 16);
+        break;
+    case 1:
+        index = 0;
+        led_value = (level << 8);
+        break;
+    case 2:
+        index = 0;
+        led_value = level;
+        break;
+    case 3:
+        index = 1;
+        led_value = level;
+        break;
+    case 4:
+        index = 1;
+        led_value = (level << 8);
+        break;
+    case 5:
+        index = 1;
+        led_value = (level << 16);
+        break;
+    case 6:
+        index = 2;
+        led_value = (level << 16);
+        break;
+    case 7:
+        index = 2;
+        led_value = (level << 8);
+        break;
+    case 8:
+        index = 2;
+        led_value = level;
+        break;
+    case 9:
+        index = 3;
+        led_value = (level << 16);
+        break;
+    case 10:
+        index = 3;
+        led_value = (level << 8);
+        break;
+    case 11:
+        index = 3;
+        led_value = level;
+        break;
+    case 12:
+        index = 4;
+        led_value = level;
+        break;
+    case 13:
+        index = 4;
+        led_value = (level << 8);
+        break;
+    case 14:
+        index = 4;
+        led_value = (level << 16);
+        break;
+    default:
+        break;
+    }
+
+    // uint32_t color = 0xff0000;
+    Serial.print(" i:");
+    Serial.print(index);
+    // Serial.print(" c:");
+    // Serial.print(led_value, HEX);
+    Serial.print(" ic:");
+    Serial.print(ICS_ON_PCB);
+    
+
+    // Calculate true index
+    index = index + (ICS_ON_PCB * pcb_nr);
+    Serial.print(" true i:");
+    Serial.print(index);
+    // set value
+    pixels.setPixelColor(index, led_value);
+
+    Serial.print("\n");
     return true;
 }
 
