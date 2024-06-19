@@ -2,12 +2,11 @@
  * main.cpp
  *
  * Started 08.06.2024
- * Edited  16.06.2024
+ * Edited  19.06.2024
  * 
  * Copyright 2024 Tauno Erik
  */
 #include <Arduino.h>
-//#include <Adafruit_NeoPixel.h>
 #include "Tauno_Ring_Valgusti.h"
 
 #define LED_PIN    2  // ESP32-WROOM D2
@@ -15,7 +14,7 @@
 
 #define IC_COUNT 5  // kiipi
 
-#define DELAY_VAL 100
+#define DELAY_VAL 50
 
 Tauno_Ring_Valgusti RING(LED_PIN, PCB_COUNT);
 /*
@@ -52,12 +51,35 @@ void setup() {
 void loop() {
   uint8_t val = 100;
 
+  RING.all_off();
+
+    delay(100);
+
   for (size_t i = 0; i < 75; i++) {
-    RING.all_off();
-    RING.led_on(i, val);  // alusta 1
+    // RING.all_off();
+    RING.led_on(i, 50);  // alusta 1
     RING.show();
     delay(DELAY_VAL);
   }
+
+  delay(100);
+
+  for (size_t i = 0; i < 75; i++) {
+    // RING.all_off();
+    RING.led_on(i, 150);  // alusta 1
+    RING.show();
+    delay(DELAY_VAL);
+  }
+
+  delay(100);
+
+  for (size_t i = 0; i < 75; i++) {
+    // RING.all_off();
+    RING.led_on(i, 0x01);  // alusta 1
+    RING.show();
+    delay(DELAY_VAL);
+  }
+
 /*
     RING.all_off();
     RING.led_on(0, val);
